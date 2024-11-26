@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfItemEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<ItemEntry>
+		<Key>ReikaKalseki.Turbofuel</Key>
+		<Name>Turbofuel</Name>
+		<Plural>Turbofuel</Plural>
+		<Type>ItemStack</Type>	
+		<Object>HighOctaneCanister</Object>
+		<Sprite>ReikaKalseki.Turbofuel</Sprite>
+		<!-- Atlas optional -->
+		<Category>CraftingIngredient</Category>
+		<ResearchRequirements>
+			<Research>ReikaKalseki.Turbofuel</Research>
+		</ResearchRequirements>
+	</ItemEntry>
+</ArrayOfItemEntry>

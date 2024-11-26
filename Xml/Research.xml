@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfResearchDataEntry xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<ResearchDataEntry>
+		<Key>ReikaKalseki.Turbofuel</Key>
+		<Name>Turbofuel</Name>
+		<IconName>ReikaKalseki.Turbofuel</IconName>
+		<PreDescription>Infusing additional chemicals into HECF to increase power yield and burn time.</PreDescription>
+		<PostDescription>Helps boost power generation before mass-scale geothermal power.</PostDescription>
+		<ResearchRequirements>
+			<Research>rocketry1</Research>	
+			<Research>T4_Particles</Research>
+		</ResearchRequirements>		
+		<ProjectItemRequirements>
+			<Requirement>
+				<Key>CompressedSulphur</Key>
+				<Amount>200</Amount>
+			</Requirement>	
+			<Requirement>
+				<Key>HighOctaneFuel</Key>
+				<Amount>30</Amount>
+			</Requirement>	
+			<Requirement>
+				<Key>InfusedCoal</Key>
+				<Amount>50</Amount>
+			</Requirement>		
+		</ProjectItemRequirements>
+		<ScanRequirements>			
+			<Scan>FluidMagma</Scan>
+		</ScanRequirements>	
+	</ResearchDataEntry>
+</ArrayOfResearchDataEntry>	
