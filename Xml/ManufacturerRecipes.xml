@@ -1,84 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ArrayOfCraftData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<CraftData>
-		<Key>ReikaKalseki.SoftResinBombMaker</Key>
-		<Category>manufacturing</Category>
-		<Tier>3</Tier>
-		<CraftedKey>ReikaKalseki.SoftResinBombMaker</CraftedKey>
-		<CraftedAmount>1</CraftedAmount>
-		<Costs>
-			<CraftCost>
-				<Key>RefinedLiquidResin</Key>
-				<Amount>100</Amount>
-			</CraftCost>
-			<CraftCost>
-				<Key>AdvancedMachineBlock</Key>
-				<Amount>10</Amount>
-			</CraftCost>
-			<CraftCost>
-				<Key>SpiderBotPowerCore</Key>
-				<Amount>20</Amount>
-			</CraftCost>
-			<CraftCost>
-				<Key>LightweightMachineHousing</Key>
-				<Amount>2</Amount>
-			</CraftCost>
-		</Costs>
-    <ResearchRequirements>
-      <Research>AdvancedResinHandling</Research>
-    </ResearchRequirements>
-    <CanCraftAnywhere>false</CanCraftAnywhere>
-		<Description>Take a quantity of liquid resin, pack it full of incendiary materials, dump in a bunch of power, and light it off to destroy large quantities of soft resin.</Description>
-		<Hint>Use this to autoproduce bombs to wipe out soft resin.</Hint>
-		<ResearchCost>5</ResearchCost>
-	</CraftData>
-	<CraftData>
-		<Key>ReikaKalseki.ResinBaker</Key>
-		<Category>decoration</Category>
-		<Tier>1</Tier>
-		<CraftedKey>ReikaKalseki.ResinBaker</CraftedKey>
-		<CraftedAmount>1</CraftedAmount>
-		<Costs>
-			<CraftCost>
-				<Key>IronPlate</Key>
-				<Amount>10</Amount>
-			</CraftCost>
-			<CraftCost>
-				<Key>SpiderBotPowerCore</Key>
-				<Amount>5</Amount>
-			</CraftCost>
-			<CraftCost>
-				<Key>LightweightMachineHousing</Key>
-				<Amount>1</Amount>
-			</CraftCost>
-		</Costs>
-    <ResearchRequirements>
-      <Research>ResinHandling</Research>
-    </ResearchRequirements>
-    <CanCraftAnywhere>false</CanCraftAnywhere>
-		<Description>Bakes soft resin to kill any worm eggs and stiffen the surface, allowing it to be used as flooring material.</Description>
-		<Hint>Does not take time to heat and cool like an ordinary smelter.</Hint>
-		<ResearchCost>1</ResearchCost>
-	</CraftData>
   <CraftData>
-    <Key>ReikaKalseki.ResinBomberFalcor</Key>
-    <Category>logistics</Category>
-    <Tier>3</Tier>
-    <CraftedKey>ReikaKalseki.ResinBomberFalcor_Key</CraftedKey>
-    <CraftedAmount>1</CraftedAmount>
+    <Key>ReikaKalseki.TurbofuelCrafter</Key>
+    <Category>manufacturing</Category>
+    <Tier>4</Tier>
+    <CraftedKey>ReikaKalseki.TurbofuelCrafterPlacement</CraftedKey>
+    <CraftedAmount>3</CraftedAmount>
     <Costs>
       <CraftCost>
-        <Key>FALCORMk1</Key>
-        <Amount>1</Amount>
+        <Key>GenericPipe</Key>
+        <Amount>25</Amount>
       </CraftCost>
       <CraftCost>
-        <Key>ChargedPCB</Key>
-        <Amount>5</Amount>
+        <Key>MagneticMachineBlock</Key>
+        <Amount>10</Amount>
       </CraftCost>
     </Costs>
-    <Description>Drops resin-blasting bombs onto patches of soft resin, clearing it out. Does not harm worms already in the resin.</Description>
+    <Description>Mixes coal and sulfur into HECF to make turbofuel. 3x3 base, 7 tall.</Description>
     <ResearchRequirements>
-      <Research>AdvancedResinHandling</Research>
+      <Research>ReikaKalseki.Turbofuel</Research>
     </ResearchRequirements>
     <CanCraftAnywhere>false</CanCraftAnywhere>
   </CraftData>

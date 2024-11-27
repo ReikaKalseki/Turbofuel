@@ -118,17 +118,17 @@ namespace ReikaKalseki.Turbofuel
 				text = text + "\n" + string.Format(PersistentSettings.GetString("UI_Internal_Power_X_X"), gen.mrCurrentPower.ToString("F0"), gen.mrMaxPower.ToString("F0"));
 				
 				if (gen.currentFuelType > 0)
-					text = text + "\nBurning "+ItemEntry.mEntriesById[gen.currentFuelType].Name+", " + gen.mrBurnTime.ToString("F2")+"s remaining";
+					text = text + "\nBurning "+FUtil.getItemName(gen.currentFuelType)+", " + gen.mrBurnTime.ToString("F2")+"s remaining";
 				else
 					text = text + "\nNo fuel";
 				
 				if (gen.mbNextFuelQueued > 0)
-					text = text + "\nHas "+ItemEntry.mEntriesById[gen.mbNextFuelQueued].Name+" in input slot";
+					text = text + "\nHas "+FUtil.getItemName(gen.mbNextFuelQueued)+" in input slot";
 				else
 					text = text + "\nNo fuel in input";
 			}
 			else {
-				text = text + "\nMultiblock is nonfunctional, rebuild";
+				text = text + "\nMultiblock is nonfunctional, rebuild it";
 			}
 			ui.SetInfoText(text, 0.75f, false);
 		}
