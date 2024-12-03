@@ -33,20 +33,8 @@ namespace ReikaKalseki.Turbofuel
 		return config;
 	}
 
-    public override ModRegistrationData Register()
-    {
-        ModRegistrationData registrationData = new ModRegistrationData();
-        
+    protected override void loadMod(ModRegistrationData registrationData) {
         config.load();
-        
-        //registrationData.RegisterEntityHandler(MOD_KEY);
-        /*
-        TerrainDataEntry entry;
-        TerrainDataValueEntry valueEntry;
-        TerrainData.GetCubeByKey(CUBE_KEY, out entry, out valueEntry);
-        if (entry != null)
-          ModCubeType = entry.CubeType;
-         */
         
         runHarmony();
         
@@ -65,17 +53,18 @@ namespace ReikaKalseki.Turbofuel
 		crafterBodyValue = ModManager.mModMappings.CubesByKey["ReikaKalseki.TurbofuelCrafter"].ValuesByKey["ReikaKalseki.TurbofuelCrafterBlock"].Value;
 		crafterCenterValue = ModManager.mModMappings.CubesByKey["ReikaKalseki.TurbofuelCrafter"].ValuesByKey["ReikaKalseki.TurbofuelCrafterCenter"].Value;
 		turbofuelRecipe.CraftedKey = "ReikaKalseki.Turbofuel";
-		RecipeUtil.addIngredient(turbofuelRecipe, "CompressedSulphur", (uint)config.getInt(TBConfig.ConfigEntries.SULFUR_COST));
+		turbofuelRecipe.addIngredient("CompressedSulphur", (uint)config.getInt(TBConfig.ConfigEntries.SULFUR_COST));
 		if (config.getBoolean(TBConfig.ConfigEntries.USE_HOF)) {
-			RecipeUtil.addIngredient(turbofuelRecipe, "HighOctaneFuel", 1);
+			turbofuelRecipe.addIngredient("HighOctaneFuel", 1);
 		}
 		else {
-			RecipeUtil.addIngredient(turbofuelRecipe, "CoalOre", (uint)config.getInt(TBConfig.ConfigEntries.COAL_COST));
-			RecipeUtil.addIngredient(turbofuelRecipe, "HighEnergyCompositeFuel", 1);
+			turbofuelRecipe.addIngredient("CoalOre", (uint)config.getInt(TBConfig.ConfigEntries.COAL_COST));
+			turbofuelRecipe.addIngredient("HighEnergyCompositeFuel", 1);
 		}
+		int resin = config.getInt(TBConfig.ConfigEntries.RESIN_COST);
+		if (resin > 0)
+			turbofuelRecipe.addIngredient("RefinedLiquidResin", (uint)resin);
 		CraftData.LinkEntries(new List<CraftData>{turbofuelRecipe}, null);
-		
-        return registrationData;
     }
     
     public override void CheckForCompletedMachine(ModCheckForCompletedMachineParameters parameters) {	 

@@ -20,6 +20,7 @@ namespace ReikaKalseki.Turbofuel
 			[ConfigEntry("Turbofuel Sulfur Cost", typeof(int), 20, 1, 100, 0)]SULFUR_COST,
 			[ConfigEntry("Turbofuel Coal Cost", typeof(int), 50, 1, 100, 0)]COAL_COST,
 			[ConfigEntry("Turbofuel Uses HOF+Sulfur instead of HECF+Coal+Sulfur", false)]USE_HOF,
+			[ConfigEntry("Turbofuel Refined Liquid Resin Cost", typeof(int), 0, 0, 1000, 0)]RESIN_COST,
 		}
 	}
 }

@@ -330,7 +330,7 @@ namespace ReikaKalseki.Turbofuel {
 		}
 		
 		private int tryGetFuel(StorageMachineInterface si) {
-			FUtil.log("Trying to pull fuel from "+si);
+			//FUtil.log("Trying to pull fuel from "+si);
 			if (tryGetFuel(si, TURBOFUEL_ITEM_ID))
 				return TURBOFUEL_ITEM_ID;
 			else if (tryGetFuel(si, HOF_ITEM_ID))
