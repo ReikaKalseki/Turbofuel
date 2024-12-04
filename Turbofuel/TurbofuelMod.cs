@@ -17,11 +17,7 @@ namespace ReikaKalseki.Turbofuel
     
     private static Config<TBConfig.ConfigEntries> config;
 
-	public static ushort crafterBlockID;
-	public static ushort machinePlacerID;
-	public static ushort crafterPlacementValue;
-	public static ushort crafterBodyValue;
-	public static ushort crafterCenterValue;
+    public static MultiblockData crafter;
 	
 	public static readonly CraftData turbofuelRecipe = RecipeUtil.createNewRecipe("Turbofuel");
     
@@ -37,21 +33,11 @@ namespace ReikaKalseki.Turbofuel
         config.load();
         
         runHarmony();
-        
-		registrationData.RegisterEntityHandler("ReikaKalseki.TurbofuelCrafter");
-		registrationData.RegisterEntityHandler("ReikaKalseki.TurbofuelCrafterBlock");
-		registrationData.RegisterEntityHandler("ReikaKalseki.TurbofuelCrafterCenter");
-		TerrainDataEntry terrainDataEntry;
-		TerrainDataValueEntry terrainDataValueEntry;
-		TerrainData.GetCubeByKey("ReikaKalseki.TurbofuelCrafter", out terrainDataEntry, out terrainDataValueEntry);
-		crafterBlockID = terrainDataEntry.CubeType;
 		
 		registrationData.RegisterEntityHandler(eSegmentEntity.JetTurbineGenerator);
 		
-		machinePlacerID = ModManager.mModMappings.CubesByKey["MachinePlacement"].CubeType;
-		crafterPlacementValue = ModManager.mModMappings.CubesByKey["MachinePlacement"].ValuesByKey["ReikaKalseki.TurbofuelCrafterPlacement"].Value;
-		crafterBodyValue = ModManager.mModMappings.CubesByKey["ReikaKalseki.TurbofuelCrafter"].ValuesByKey["ReikaKalseki.TurbofuelCrafterBlock"].Value;
-		crafterCenterValue = ModManager.mModMappings.CubesByKey["ReikaKalseki.TurbofuelCrafter"].ValuesByKey["ReikaKalseki.TurbofuelCrafterCenter"].Value;
+		crafter = FUtil.registerMultiblock(registrationData, "TurbofuelCrafter", MultiblockData.GASSTORAGE);
+		
 		turbofuelRecipe.CraftedKey = "ReikaKalseki.Turbofuel";
 		turbofuelRecipe.addIngredient("CompressedSulphur", (uint)config.getInt(TBConfig.ConfigEntries.SULFUR_COST));
 		if (config.getBoolean(TBConfig.ConfigEntries.USE_HOF)) {
@@ -68,16 +54,16 @@ namespace ReikaKalseki.Turbofuel
     }
     
     public override void CheckForCompletedMachine(ModCheckForCompletedMachineParameters parameters) {	 
-    	if (parameters.CubeValue == crafterBlockID)
-			TurbofuelCrafter.CheckForCompletedMachine(parameters.Frustrum, parameters.X, parameters.Y, parameters.Z);
+    	if (parameters.CubeValue == crafter.placerMeta)
+			crafter.checkForCompletedMachine(parameters);
 	}
     
 	public override ModCreateSegmentEntityResults CreateSegmentEntity(ModCreateSegmentEntityParameters parameters) {
 		ModCreateSegmentEntityResults modCreateSegmentEntityResults = new ModCreateSegmentEntityResults();
 		try {
-			if (parameters.Cube == crafterBlockID) {
+			if (parameters.Cube == crafter.blockID) {
 				modCreateSegmentEntityResults.Entity = new TurbofuelCrafter(parameters);
-				parameters.ObjectType = SpawnableObjectEnum.RefineryReactorVat;
+				parameters.ObjectType = crafter.prefab.model;
 			}
 			else if (parameters.Type == eSegmentEntity.JetTurbineGenerator) {
 				parameters.ObjectType = SpawnableObjectEnum.JetTurbine;
@@ -122,58 +108,5 @@ namespace ReikaKalseki.Turbofuel
 			ui.SetInfoText(text, 0.75f, false);
 		}
     }
-    /*
-    public static int refuelJet(JetTurbineGenerator gen, int hopperPos) {
-		if (gen.mNeighbouringHoppers.Count == 0)
-			return hopperPos;
-		if (hopperPos >= gen.mNeighbouringHoppers.Count)
-			hopperPos = 0;
-		
-		StorageMachineInterface si = gen.mNeighbouringHoppers[hopperPos];
-		eHopperPermissions permissions = si.GetPermissions();
-		int hecf = ItemEntry.mEntriesByKey["HighEnergyCompositeFuel"].ItemID;
-		int hof = ItemEntry.mEntriesByKey["HighOctaneFuel"].ItemID;
-		if ((permissions == eHopperPermissions.RemoveOnly || permissions == eHopperPermissions.AddAndRemove) && !((SegmentEntity)si).mbDelete) {
-			if (si.TryExtractItems(gen, turbofuelRecipe.CraftableItemType, 1)) {
-				if (gen.mrTransferRate <= 320)
-					gen.mrTransferRate = 332;
-				else if (Mathf.Approximately(gen.mrTransferRate, 331))
-					gen.mrTransferRate = 336;
-				else if (Mathf.Approximately(gen.mrTransferRate, 332))
-					gen.mrTransferRate = 334;
-				gen.mbNextFuelQueued = true;
-				gen.HasSpentFuel = true;
-				gen.RequestImmediateNetworkUpdate();
-			}
-			else if (si.TryExtractItems(gen, hof, 1)) { //this is the code from wariat's mod, to be a drop-in replacement using pre-existing saved data
-				if (gen.mrTransferRate <= 320)
-					gen.mrTransferRate = 322;
-				else if (Mathf.Approximately(gen.mrTransferRate, 321))
-					gen.mrTransferRate = 326;
-				else if (Mathf.Approximately(gen.mrTransferRate, 322))
-					gen.mrTransferRate = 324;
-				gen.mbNextFuelQueued = true;
-				gen.HasSpentFuel = true;
-				gen.RequestImmediateNetworkUpdate();
-			}
-			else if (si.TryExtractItems(gen, hecf, 1)) {
-				if (gen.mrTransferRate <= 320)
-					gen.mrTransferRate = 321;
-				else if (Mathf.Approximately(gen.mrTransferRate, 321))
-					gen.mrTransferRate = 323;
-				else if (Mathf.Approximately(gen.mrTransferRate, 322))
-					gen.mrTransferRate = 325;
-				gen.mbNextFuelQueued = true;
-				gen.HasSpentFuel = true;
-				gen.RequestImmediateNetworkUpdate();
-			}
-		}
-		if (gen.mNeighbouringHoppers.Count > 1) {
-			hopperPos++;
-			hopperPos %= gen.mNeighbouringHoppers.Count;
-		}
-		return hopperPos;
-    }
-*/
   }
 }
