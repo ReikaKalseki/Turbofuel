@@ -1011,15 +1011,14 @@ namespace ReikaKalseki.Turbofuel {
 			return this.mValue == CENTER_VALUE;
 		}
 	
-		public override HoloMachineEntity CreateHolobaseEntity(Holobase holobase) {
-			HolobaseEntityCreationParameters holobaseEntityCreationParameters = new HolobaseEntityCreationParameters(this);
-			if (this.mValue == 1) {
-				HolobaseVisualisationParameters holobaseVisualisationParameters = holobaseEntityCreationParameters.AddVisualisation(holobase.mPreviewCube);
-				holobaseVisualisationParameters.Scale = new Vector3(3f, 3f, 5f);
-				holobaseVisualisationParameters.Color = Color.gray;
-				return holobase.CreateHolobaseEntity(holobaseEntityCreationParameters);
-			}
-			return null;
+		protected override bool setupHolobaseVisuals(Holobase hb, out GameObject model, out Vector3 size, out Color color) {
+			if (!base.setupHolobaseVisuals(hb, out model, out size, out color))
+				return false;
+			if (this.mValue == CENTER_VALUE)
+				return false;
+			size = new Vector3(3f, 3f, 5f);
+			color = Color.gray;
+			return true;
 		}
 	
 		public const ushort HOUSING_PLACEMENT_VALUE = 2;

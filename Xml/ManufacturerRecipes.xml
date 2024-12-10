@@ -5,11 +5,11 @@
     <Category>manufacturing</Category>
     <Tier>4</Tier>
     <CraftedKey>ReikaKalseki.TurbofuelCrafterPlacement</CraftedKey>
-    <CraftedAmount>3</CraftedAmount>
+    <CraftedAmount>9</CraftedAmount>
     <Costs>
       <CraftCost>
         <Key>GenericPipe</Key>
-        <Amount>25</Amount>
+        <Amount>10</Amount>
       </CraftCost>
       <CraftCost>
         <Key>MagneticMachineBlock</Key>

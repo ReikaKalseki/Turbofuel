@@ -25,7 +25,7 @@ using ReikaKalseki.FortressCore;
 namespace ReikaKalseki.Turbofuel
 {
 	
-	public class TurbofuelCrafter : FCoreMBCrafter<TurbofuelCrafter> {
+	public class TurbofuelCrafter : FCoreMBCrafter<TurbofuelCrafter, CraftData> {
 	
 		private static readonly float PPS_COST = TurbofuelMod.getConfig().getFloat(TBConfig.ConfigEntries.CRAFTER_PPS);
 		

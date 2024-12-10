@@ -28,6 +28,19 @@ namespace ReikaKalseki.Turbofuel
 	public static Config<TBConfig.ConfigEntries> getConfig() {
 		return config;
 	}
+	
+	public static void setRecipeCompatibility(CraftData with) {
+		uint amt = 0;
+		foreach (CraftCost cc in with.Costs) {
+			CraftCost from = turbofuelRecipe.removeIngredient(cc.Key);
+			if (from != null)
+				amt = Math.Max(amt, (uint)Mathf.CeilToInt(from.Amount*with.CraftedAmount/(float)cc.Amount));
+		}
+		if (amt > 0) {
+			turbofuelRecipe.addIngredient(with.CraftedKey, amt);
+		}
+		CraftData.LinkEntries(new List<CraftData>{turbofuelRecipe}, null);
+	}
 
     protected override void loadMod(ModRegistrationData registrationData) {
         config.load();
@@ -62,8 +75,8 @@ namespace ReikaKalseki.Turbofuel
 		ModCreateSegmentEntityResults modCreateSegmentEntityResults = new ModCreateSegmentEntityResults();
 		try {
 			if (parameters.Cube == crafter.blockID) {
-				modCreateSegmentEntityResults.Entity = new TurbofuelCrafter(parameters);
 				parameters.ObjectType = crafter.prefab.model;
+				modCreateSegmentEntityResults.Entity = new TurbofuelCrafter(parameters);
 			}
 			else if (parameters.Type == eSegmentEntity.JetTurbineGenerator) {
 				parameters.ObjectType = SpawnableObjectEnum.JetTurbine;
