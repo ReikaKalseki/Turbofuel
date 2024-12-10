@@ -33,7 +33,7 @@ namespace ReikaKalseki.Turbofuel {
 				this.mbNeedsLowFrequencyUpdate = true;
 				this.mbNeedsUnityUpdate = true;
 				Achievements.UnlockAchievementDelayed(Achievements.eAchievements.eTurbinestoSpeed);
-				FUtil.log("Building master "+this);
+				//FUtil.log("Building master "+this);
 			}
 			this.mnOrientation = parameters.Flags >> 6;
 			this.mNeighbouringMachines = new List<PowerConsumerInterface>(4);

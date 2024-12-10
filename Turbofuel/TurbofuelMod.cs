@@ -20,6 +20,8 @@ namespace ReikaKalseki.Turbofuel
     public static MultiblockData crafter;
 	
 	public static readonly CraftData turbofuelRecipe = RecipeUtil.createNewRecipe("Turbofuel");
+	
+	private static readonly Dictionary<CraftData, float> pendingRecipeCompat = new Dictionary<CraftData, float>();
     
     public TurbofuelMod() : base("Turbofuel") {
     	config = new Config<TBConfig.ConfigEntries>(this);
@@ -29,15 +31,32 @@ namespace ReikaKalseki.Turbofuel
 		return config;
 	}
 	
-	public static void setRecipeCompatibility(CraftData with) {
+	public static void setRecipeCompatibility(CraftData with, float difficultyBonus) {
+		if (turbofuelRecipe.Costs.Count == 0) {
+			FUtil.log("Mod not yet loaded, queuing compatibility for later");
+			pendingRecipeCompat.Add(with, difficultyBonus);
+			return;
+		}
 		uint amt = 0;
+		List<string> li = new List<string>();
 		foreach (CraftCost cc in with.Costs) {
 			CraftCost from = turbofuelRecipe.removeIngredient(cc.Key);
-			if (from != null)
+			if (from != null) {
 				amt = Math.Max(amt, (uint)Mathf.CeilToInt(from.Amount*with.CraftedAmount/(float)cc.Amount));
+				li.Add(from.Name+" x"+from.Amount);
+			}
 		}
 		if (amt > 0) {
+			FUtil.log("Adding "+with.CraftedKey+"x"+amt+" to turbofuel recipe, replaced ["+string.Join(", ", li.ToArray())+"]");
 			turbofuelRecipe.addIngredient(with.CraftedKey, amt);
+			if (difficultyBonus > 1) {
+				turbofuelRecipe.CraftedAmount = Mathf.CeilToInt(turbofuelRecipe.CraftedAmount*difficultyBonus);
+				FUtil.log("Increasing yield by "+((difficultyBonus-1)*100).ToString("0.00")+"% due to increased difficulty");
+			}
+			FUtil.log("New turbofuel recipe: "+turbofuelRecipe.recipeToString(true));
+		}
+		else {
+			FUtil.log("No ingredients found sharing costs of "+with.recipeToString(true)+", no recipe changes performed");
 		}
 		CraftData.LinkEntries(new List<CraftData>{turbofuelRecipe}, null);
 	}
@@ -63,7 +82,15 @@ namespace ReikaKalseki.Turbofuel
 		int resin = config.getInt(TBConfig.ConfigEntries.RESIN_COST);
 		if (resin > 0)
 			turbofuelRecipe.addIngredient("RefinedLiquidResin", (uint)resin);
+		
+		turbofuelRecipe.CraftTime = config.getFloat(TBConfig.ConfigEntries.CRAFTER_TIME);
 		CraftData.LinkEntries(new List<CraftData>{turbofuelRecipe}, null);
+		
+		if (pendingRecipeCompat.Count > 0) {
+			FUtil.log("Applying queued recipe compatibilities");
+			foreach (KeyValuePair<CraftData, float> kvp in pendingRecipeCompat)
+				setRecipeCompatibility(kvp.Key, kvp.Value);
+		}
     }
     
     public override void CheckForCompletedMachine(ModCheckForCompletedMachineParameters parameters) {	 
