@@ -51,6 +51,7 @@ namespace ReikaKalseki.Turbofuel
 			turbofuelRecipe.addIngredient(with.CraftedKey, amt);
 			if (difficultyBonus > 1) {
 				turbofuelRecipe.CraftedAmount = Mathf.CeilToInt(turbofuelRecipe.CraftedAmount*difficultyBonus);
+				turbofuelRecipe.Costs.ForEach(c => {if (c.Key == "HighEnergyCompositeFuel" || c.Key == "HighOctaneFuel")c.Amount = (uint)turbofuelRecipe.CraftedAmount;});
 				FUtil.log("Increasing yield by "+((difficultyBonus-1)*100).ToString("0.00")+"% due to increased difficulty");
 			}
 			FUtil.log("New turbofuel recipe: "+turbofuelRecipe.recipeToString(true));
